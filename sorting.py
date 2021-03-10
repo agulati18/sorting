@@ -60,7 +60,7 @@ def _merged(xs, ys, cmp=cmp_standard):
     >>> _merged([1, 3, 5], [2, 4, 6])
     [1, 2, 3, 4, 5, 6]
     '''
-    i = j = n = 0
+    i = j = 0
     xsys = []
 
     while i < len(xs) and j < len(ys):
