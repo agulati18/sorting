@@ -60,13 +60,13 @@ def _merged(xs, ys, cmp=cmp_standard):
     >>> _merged([1, 3, 5], [2, 4, 6])
     [1, 2, 3, 4, 5, 6]
     '''
-    i, j, n = 0
+    i = j = n = 0
     xsys = []
 
     while i < len(xs) and j < len(ys):
         check = cmp(xs[i], ys[j])
         if check == -1:
-            xsys.append(ys[i])
+            xsys.append(xs[i])
             i += 1
         if check == 1:
             xsys.append(ys[j])
