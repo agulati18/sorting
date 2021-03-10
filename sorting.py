@@ -122,6 +122,6 @@ def quick_sorted(xs, cmp=cmp_standard):
         return xs_copy
     else:
         piv = random.randrange(len(xs_copy))
-        low = xs[0:piv]
-        hi = xs[piv:]
-        return _merged((quick_sorted(low, cmp), quick_sorted(hi, cmp)), cmp)
+        low = xs_copy[0:piv]
+        hi = xs_copy[piv:]
+        return _merged((merge_sorted(low, cmp), merge_sorted(hi, cmp)), cmp)
