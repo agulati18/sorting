@@ -65,7 +65,8 @@ def _merged(xs, ys, cmp=cmp_standard):
     if len(ys) == 0:
         return xs
 
-    left, right, n = 0
+    left, right = 0
+    n = 0
 
     ret = []
     while left < len(xs) and right < len(ys):
