@@ -5,7 +5,6 @@ Python provides built-in sort/sorted functions that use timsort internally.
 You cannot use these built-in functions anywhere in this file.
 '''
 
-import random
 from copy import deepcopy
 
 
@@ -60,33 +59,30 @@ def _merged(xs, ys, cmp=cmp_standard):
     >>> _merged([1, 3, 5], [2, 4, 6])
     [1, 2, 3, 4, 5, 6]
     '''
-    if len(xs) == 0:
-        return ys
-    if len(ys) == 0:
-        return xs
+    i = j = 0
+    s_list = []
 
-    left, right = 0
-    n = 0
+    while i < len(xs) and j < len(ys):
+        check = cmp(xs[i], ys[j])
+        if check == -1:
+            s_list.append(xs[i])
+            i += 1
+        if check == 1:
+            s_list.append(ys[j])
+            j += 1
+        if check == 0:
+            s_list.append(xs[i])
+            s_list.append(ys[j])
+            i += 1
+            j += 1
 
-    ret = []
-    while left < len(xs) and right < len(ys):
-        if cmp(xs[left], ys[right]) == -1:
-            ret[n] = xs[left]
-            left += 1
-        else:
-            ret[n] = ys[right]
-            right += 1
-        n += 1
-
-    while left < len(xs):
-        ret[n] = xs[left]
-        left += 1
-        n += 1
-
-    while right < len(ys):
-        ret[n] = xs[right]
-        right += 1
-        n += 1
+    while i < len(xs):
+        s_list.append(xs[i])
+        i += 1
+    while j < len(ys):
+        s_list.append(ys[j])
+        j += 1
+    return s_list
 
 
 def merge_sorted(xs, cmp=cmp_standard):
@@ -118,11 +114,25 @@ def merge_sorted(xs, cmp=cmp_standard):
 
 
 def quick_sorted(xs, cmp=cmp_standard):
-    xs_copy = deepcopy(xs)
-    if len(xs_copy) <= 1:
-        return xs_copy
+    lo = []
+    hi = []
+    piv = []
+
+    if len(xs) <= 1:
+        return xs
     else:
-        piv = random.randrange(len(xs_copy))
-        low = xs_copy[0:piv]
-        hi = xs_copy[piv:]
-        return _merged((merge_sorted(low, cmp), merge_sorted(hi, cmp)), cmp)
+        value = xs[0]
+        for i in xs:
+            if i > value:
+                hi.append(i)
+            elif i < value:
+                lo.append(i)
+            else:
+                piv.append(i)
+        less = quick_sorted(lo, cmp=cmp)
+        great = quick_sorted(hi, cmp=cmp)
+
+    if cmp == cmp_standard:
+        return less + piv + great
+    if cmp == cmp_reverse:
+        return great + piv + less
