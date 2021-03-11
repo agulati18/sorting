@@ -117,11 +117,10 @@ def merge_sorted(xs, cmp=cmp_standard):
 
 
 def quick_sorted(xs, cmp=cmp_standard):
-    xs_copy = deepcopy(xs)
-    if len(xs_copy) <= 1:
-        return xs_copy
+    if len(xs) <= 1:
+        return xs
     else:
-        piv = random.randrange(len(xs_copy))
-        low = xs_copy[0:piv]
-        hi = xs_copy[piv:]
+        piv = random.randrange(len(xs))
+        low = xs[0:piv]
+        hi = xs[piv:]
         return _merged((merge_sorted(low, cmp), merge_sorted(hi, cmp)), cmp)
